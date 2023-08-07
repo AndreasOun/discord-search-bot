@@ -21,19 +21,16 @@ client.once('ready', () => {
 
 client.on('messageCreate', async (message) => {
   if (!message.author.bot) {
-    if (message.content.toLowerCase() === 'crop top guy') {
-      const imageUrl = await fetchImageFromWeb('crop top guy');
+    const args = message.content.toLowerCase().split(' ');
+
+    if (args[0] === '!image' && args.length > 1) {
+      const searchTerm = args.slice(1).join(' ');
+      const imageUrl = await fetchImageFromWeb(searchTerm);
+
       if (imageUrl) {
-        message.channel.send(`Here's an image of "crop top guy": ${imageUrl}`);
+        message.channel.send(`Here's an image related to "${searchTerm}": ${imageUrl}`);
       } else {
-        message.channel.send('No images found for "crop top guy".');
-      }
-    } else if (message.content.toLowerCase() === 'wizard') {
-      const imageUrl = await fetchImageFromWeb('wizard');
-      if (imageUrl) {
-        message.channel.send(`Here's an image of "wizard": ${imageUrl}`);
-      } else {
-        message.channel.send('No images found for "wizard".');
+        message.channel.send(`No images found for "${searchTerm}".`);
       }
     }
   }
