@@ -2,6 +2,7 @@ const { Client, GatewayIntentBits, Partials, Collection, ActivityType } = requir
 const axios = require('axios');
 const config = require('./config.json');
 const imgurClientId = config.imgurClientId;
+const { logMessage } = require('./modules/logger')
 
 const client = new Client({
   intents: [
@@ -29,8 +30,10 @@ client.on('messageCreate', async (message) => {
 
       if (imageUrl) {
         message.channel.send(`Here's an image related to "${searchTerm}": ${imageUrl}`);
+        logMessage(message,`Here's an image related to "${searchTerm}": ${imageUrl}`)
       } else {
         message.channel.send(`No images found for "${searchTerm}".`);
+        logMessage(message, `No images found for "${searchTerm}".`);
       }
     }
   }
